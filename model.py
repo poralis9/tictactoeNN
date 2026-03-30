@@ -19,18 +19,10 @@ class TicTacToeNN(nn.Module):
         
         return logits
 def get_batch_actions(logits, boards):
-    """
-    logits: (N, 9), boards: (N, 3, 3)
-    N개 게임의 최적 행동을 한 번에 계산
-    """
     flat_boards = boards.view(boards.shape[0], -1)
-    mask = (flat_boards != 0) # (N, 9)
-    
-    # 이미 돌이 있는 자리는 -1e9로 덮어쓰기
+    mask = (flat_boards != 0)
     masked_logits = logits.masked_fill(mask, -1e9)
-    
-    # 각 행(게임)별로 가장 높은 점수의 인덱스 추출
-    actions = torch.argmax(masked_logits, dim=1) # (N,)
+    actions = torch.argmax(masked_logits, dim=1)
     
     return actions
 if __name__ =="main":
