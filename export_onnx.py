@@ -26,7 +26,7 @@ def convert_to_onnx():
         }
     )
     
-    print(f"✅ ONNX 변환 완료! 파일이 성공적으로 저장되었습니다:\n👉 {onnx_file_path}")
+    print(f"변환됨 | 경로->\n {onnx_file_path}")
 
 if __name__ == "__main__":
     convert_to_onnx()
