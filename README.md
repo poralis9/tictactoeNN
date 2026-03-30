@@ -3,5 +3,5 @@
 이 프로젝트는 PyTorch로 학습시킨 틱택토 AI 모델을 브라우저에서 직접 실행하는 데모입니다. 
 onnx로 추론하는 예제가 존재합니다
 
- **link(https://github.com/poralis9/tictactoeNN/tree/main?tab=readme-ov-file)**
+ **link(https://poralis9.github.io/tictactoeNN/)**
 
