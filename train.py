@@ -7,7 +7,6 @@ from board import create_batch_boards, check_winner_parallel
 from collections import deque
 import math
 from tqdm import tqdm
-# 1. 학습 환경 설정
 model = TicTacToeNN()
 target_model = TicTacToeNN() 
 target_model.load_state_dict(model.state_dict())
@@ -16,9 +15,6 @@ optimizer = optim.Adam(model.parameters(), lr=1e-3)
 criterion = nn.SmoothL1Loss()
 
 def train_from_memory(memory, batch_size, gamma):
-    """
-    기억 저장소(memory)에서 데이터를 꺼내 모델을 한 번 업데이트합니다.
-    """
     if len(memory) < batch_size:
         return None
     batch = random.sample(memory, batch_size)
@@ -53,7 +49,7 @@ def train_from_memory(memory, batch_size, gamma):
 
 
 
-# --- 설정 ---
+#config
 NUM_ENVS = 1000       
 MEMORY_SIZE = 50000   
 BATCH_SIZE = 64       
@@ -64,7 +60,6 @@ EPS_DECAY = 2000
 TRAIN_STEPS = 150
 memory = deque(maxlen=MEMORY_SIZE)
 def play_parallel_games_and_train(epoch):
-    """1000판을 동시에 진행하고 끝난 게임의 데이터를 모아 학습하는 루프"""
     current_epsilon = EPS_END + (EPS_START - EPS_END) * math.exp(-1. * epoch / EPS_DECAY)
     boards = create_batch_boards(NUM_ENVS)
     players = torch.ones(NUM_ENVS, dtype=torch.float32)
