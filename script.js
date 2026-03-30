@@ -25,11 +25,11 @@ async function loadModel() {
     try {
         // export_onnx.py로 뽑아낸 모델 로드
         session = await ort.InferenceSession.create('./tictactoe_model.onnx');
-        statusText.innerText = "게임 준비 완료! 당신의 턴입니다.";
+        statusText.innerText = "game ready your turn now.";
         btnReset.disabled = false;
     } catch (e) {
         console.error(e);
-        statusText.innerText = "모델 로딩 실패! 경로를 확인하세요.";
+        statusText.innerText = "can`t load model.";
     }
 }
 
@@ -60,9 +60,9 @@ function handleGameState() {
     const winner = checkWinner();
     if (winner !== null) {
         isGameOver = true;
-        if (winner === 0) statusText.innerText = "무승부입니다!";
-        else if (winner === humanPlayer) statusText.innerText = "🎉 당신이 이겼습니다!";
-        else statusText.innerText = "🤖 AI가 이겼습니다!";
+        if (winner === 0) statusText.innerText = "draw";
+        else if (winner === humanPlayer) statusText.innerText = "you win";
+        else statusText.innerText = "you lost";
         return true;
     }
     return false;
@@ -72,7 +72,7 @@ function handleGameState() {
 async function makeAiMove() {
     if (isGameOver || !session) return;
     
-    statusText.innerText = "AI가 생각 중입니다...";
+    statusText.innerText = "thinking...";
     
     // 파이썬 로직: input_boards = current_boards * current_players
     // 즉, AI가 볼 때는 자신의 돌이 무조건 1, 상대가 -1이 되어야 함
@@ -106,7 +106,7 @@ async function makeAiMove() {
         currentPlayer = humanPlayer;
         updateBoard();
         if (!handleGameState()) {
-            statusText.innerText = "당신의 턴입니다.";
+            statusText.innerText = "your turn";
         }
     }
 }
@@ -142,7 +142,7 @@ function resetGame(isHumanFirst) {
         currentPlayer = 1;
         btnFirst.classList.add('active');
         btnSecond.classList.remove('active');
-        statusText.innerText = "당신의 턴입니다.";
+        statusText.innerText = "your turn";
     } else {
         humanPlayer = -1;
         aiPlayer = 1;
